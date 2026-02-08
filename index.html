@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Adopt Dozer</title>
+    <meta name="description" content="Meet Dozer, a friendly 2-year-old pit bull-type mix in Fort Mill, SC looking for a loving home." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <header class="hero">
+      <div class="hero__content">
+        <p class="eyebrow">Fort Mill, SC</p>
+        <h1>Adopt Dozer</h1>
+        <p class="subtitle">A friendly, people-focused pit bull-type mix with a big heart.</p>
+        <div class="hero__actions">
+          <a class="button" href="#contact">Meet Dozer</a>
+          <a class="button button--ghost" href="#details">Learn more</a>
+        </div>
+        <dl class="quick-facts">
+          <div>
+            <dt>Age</dt>
+            <dd>About 2 years</dd>
+          </div>
+          <div>
+            <dt>Size</dt>
+            <dd>Medium-Large, about 60 lbs</dd>
+          </div>
+          <div>
+            <dt>Breed</dt>
+            <dd>Pit bull-type mix</dd>
+          </div>
+        </dl>
+      </div>
+      <div class="hero__media">
+        <button class="lightbox-trigger" type="button" data-full="assets/OnTheCouchSmiling.jpeg" data-alt="Dozer smiling on the couch">
+          <img src="assets/OnTheCouchSmiling.jpeg" alt="Dozer smiling on the couch" />
+        </button>
+        <div class="photo-strip" aria-hidden="true">
+          <button class="lightbox-trigger" type="button" data-full="assets/PXL_20260114_192645100.jpg" data-alt="Dozer portrait photo">
+            <img src="assets/PXL_20260114_192645100.jpg" alt="" />
+          </button>
+          <button class="lightbox-trigger" type="button" data-full="assets/PXL_20260117_212611455.jpg" data-alt="Dozer relaxing indoors">
+            <img src="assets/PXL_20260117_212611455.jpg" alt="" />
+          </button>
+          <button class="lightbox-trigger" type="button" data-full="assets/PXL_20260120_154746274.jpg" data-alt="Dozer outside in daylight">
+            <img src="assets/PXL_20260120_154746274.jpg" alt="" />
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="card" id="details">
+        <div>
+          <h2>About Dozer</h2>
+          <p>
+            Dozer is a young, affectionate dog who loves attention, playtime, and
+            relaxing with his people. He is loyal, people-oriented, and happiest
+            when he has a buddy nearby.
+          </p>
+        </div>
+        <div class="pill-list">
+          <span>Good with other dogs</span>
+          <span>Good with people</span>
+          <span>Enjoys play and chew toys</span>
+          <span>Not good with cats</span>
+        </div>
+      </section>
+
+      <section class="grid">
+        <article class="panel">
+          <h3>Health and care</h3>
+          <ul>
+            <li>Up to date on vaccinations</li>
+            <li>Otherwise healthy</li>
+            <li>Not neutered yet, owner can cover or help with cost</li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h3>Adoption details</h3>
+          <ul>
+            <li>Private rehoming</li>
+            <li>$100 adoption fee to ensure responsible placement</li>
+            <li>Meet and greet required</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="card contact" id="contact">
+        <div>
+          <h2>Ready to meet Dozer?</h2>
+          <p>Reach out to schedule a meet and greet or ask any questions.</p>
+        </div>
+        <div class="contact__details">
+          <p><strong>David Douglas</strong></p>
+          <p>
+            <a href="mailto:david@onetwentyseven.dev">david@onetwentyseven.dev</a>
+            <span class="divider">|</span>
+            <a href="tel:+18649783259">(864) 978-3259</a>
+          </p>
+          <p>
+            <a href="https://adoptdozer.com" rel="noopener" target="_blank">adoptdozer.com</a>
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Thank you for helping Dozer find a loving home.</p>
+    </footer>
+
+    <div class="lightbox" id="lightbox" aria-hidden="true">
+      <div class="lightbox__backdrop" data-lightbox-close></div>
+      <figure class="lightbox__content" role="dialog" aria-modal="true" aria-label="Image preview">
+        <button class="lightbox__close" type="button" data-lightbox-close>Close</button>
+        <img id="lightboxImage" src="" alt="" />
+      </figure>
+    </div>
+
+    <script>
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImage = document.getElementById("lightboxImage");
+      const triggers = document.querySelectorAll(".lightbox-trigger");
+      const closeTargets = document.querySelectorAll("[data-lightbox-close]");
+
+      const openLightbox = (event) => {
+        const trigger = event.currentTarget;
+        const src = trigger.getAttribute("data-full");
+        const alt = trigger.getAttribute("data-alt") || "";
+        lightboxImage.src = src;
+        lightboxImage.alt = alt;
+        lightbox.classList.add("is-open");
+        lightbox.setAttribute("aria-hidden", "false");
+      };
+
+      const closeLightbox = () => {
+        lightbox.classList.remove("is-open");
+        lightbox.setAttribute("aria-hidden", "true");
+        lightboxImage.src = "";
+        lightboxImage.alt = "";
+      };
+
+      triggers.forEach((trigger) => trigger.addEventListener("click", openLightbox));
+      closeTargets.forEach((target) => target.addEventListener("click", closeLightbox));
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && lightbox.classList.contains("is-open")) {
+          closeLightbox();
+        }
+      });
+    </script>
+  </body>
+
+</html>
