@@ -41,7 +41,7 @@
         <button class="lightbox-trigger" type="button" data-full="assets/SittingInHallway.jpg" data-alt="Dozer sitting in the hallway">
           <img src="assets/SittingInHallway.jpg" alt="Dozer sitting in the hallway" />
         </button>
-        <div class="photo-strip" aria-hidden="true">
+        <div class="photo-strip">
           <button class="lightbox-trigger" type="button" data-full="assets/PXL_20260114_192645100.jpg" data-alt="Dozer portrait photo">
             <img src="assets/PXL_20260114_192645100.jpg" alt="" />
           </button>
@@ -51,12 +51,15 @@
           <button class="lightbox-trigger" type="button" data-full="assets/PXL_20260120_154746274.jpg" data-alt="Dozer outside in daylight">
             <img src="assets/PXL_20260120_154746274.jpg" alt="" />
           </button>
+          <button class="lightbox-trigger" type="button" data-full="assets/OnTheCouchSmiling.jpeg" data-alt="Dozer on couch smiling">
+            <img src="assets/OnTheCouchSmiling.jpeg" alt="" />
+          </button>
         </div>
       </div>
     </header>
 
     <main>
-      <section class="card" id="details">
+      <section class="card card--about" id="details">
         <div>
           <h2>About Dozer</h2>
           <p>
@@ -70,6 +73,43 @@
           <span>Good with people</span>
           <span>Enjoys play and chew toys</span>
           <span>Not good with cats</span>
+        </div>
+      </section>
+
+      <section class="card" id="videos">
+        <div>
+          <h2>Videos</h2>
+          <p>A quick look at Dozer in action.</p>
+        </div>
+        <div class="video-grid">
+          <article class="video-card">
+            <h3>Dozer Walking</h3>
+            <video controls preload="metadata">
+              <source src="assets/DozerWalking.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </article>
+          <article class="video-card">
+            <h3>Dozer Tug of War</h3>
+            <video controls preload="metadata">
+              <source src="assets/DozerTugOfWar.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </article>
+          <article class="video-card">
+            <h3>Dozer Sleeping on Bed</h3>
+            <video controls preload="metadata">
+              <source src="assets/DozerSleepingOnBed.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </article>
+          <article class="video-card">
+            <h3>Dozer Playing in Snow</h3>
+            <video controls preload="metadata">
+              <source src="assets/DozerPlayingInSnow.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </article>
         </div>
       </section>
 
@@ -117,6 +157,12 @@
 
     <div class="lightbox" id="lightbox" aria-hidden="true">
       <div class="lightbox__backdrop" data-lightbox-close></div>
+      <button class="lightbox__nav lightbox__nav--prev" type="button" aria-label="Previous image" data-lightbox-prev>
+        &#10094;
+      </button>
+      <button class="lightbox__nav lightbox__nav--next" type="button" aria-label="Next image" data-lightbox-next>
+        &#10095;
+      </button>
       <figure class="lightbox__content" role="dialog" aria-modal="true" aria-label="Image preview">
         <button class="lightbox__close" type="button" data-lightbox-close>Close</button>
         <img id="lightboxImage" src="" alt="" />
@@ -126,15 +172,31 @@
     <script>
       const lightbox = document.getElementById("lightbox");
       const lightboxImage = document.getElementById("lightboxImage");
-      const triggers = document.querySelectorAll(".lightbox-trigger");
+      const triggers = [...document.querySelectorAll(".lightbox-trigger")];
       const closeTargets = document.querySelectorAll("[data-lightbox-close]");
+      const prevButton = document.querySelector("[data-lightbox-prev]");
+      const nextButton = document.querySelector("[data-lightbox-next]");
+      let currentIndex = 0;
+
+      const showImageAt = (index) => {
+        if (!triggers.length) {
+          return;
+        }
+
+        const wrappedIndex = (index + triggers.length) % triggers.length;
+        const trigger = triggers[wrappedIndex];
+        const src = trigger.getAttribute("data-full");
+        const alt = trigger.getAttribute("data-alt") || "";
+
+        currentIndex = wrappedIndex;
+        lightboxImage.src = src;
+        lightboxImage.alt = alt;
+      };
 
       const openLightbox = (event) => {
         const trigger = event.currentTarget;
-        const src = trigger.getAttribute("data-full");
-        const alt = trigger.getAttribute("data-alt") || "";
-        lightboxImage.src = src;
-        lightboxImage.alt = alt;
+        const index = Number(trigger.getAttribute("data-index"));
+        showImageAt(index);
         lightbox.classList.add("is-open");
         lightbox.setAttribute("aria-hidden", "false");
       };
@@ -146,12 +208,32 @@
         lightboxImage.alt = "";
       };
 
+      const showPrevious = () => showImageAt(currentIndex - 1);
+      const showNext = () => showImageAt(currentIndex + 1);
+
+      triggers.forEach((trigger, index) => trigger.setAttribute("data-index", String(index)));
       triggers.forEach((trigger) => trigger.addEventListener("click", openLightbox));
       closeTargets.forEach((target) => target.addEventListener("click", closeLightbox));
+      prevButton.addEventListener("click", showPrevious);
+      nextButton.addEventListener("click", showNext);
 
       document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape" && lightbox.classList.contains("is-open")) {
+        if (!lightbox.classList.contains("is-open")) {
+          return;
+        }
+
+        if (event.key === "Escape") {
           closeLightbox();
+          return;
+        }
+
+        if (event.key === "ArrowLeft") {
+          showPrevious();
+          return;
+        }
+
+        if (event.key === "ArrowRight") {
+          showNext();
         }
       });
     </script>

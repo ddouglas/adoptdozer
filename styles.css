@@ -185,6 +185,32 @@ main {
   gap: 20px;
 }
 
+.card--about {
+  margin-top: 18px;
+}
+
+.video-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.video-card {
+  display: grid;
+  gap: 10px;
+}
+
+.video-card h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.video-card video {
+  width: 100%;
+  border-radius: 18px;
+  background: #000;
+}
+
 .pill-list {
   display: flex;
   flex-wrap: wrap;
@@ -297,6 +323,36 @@ footer {
   cursor: pointer;
 }
 
+.lightbox__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(31, 26, 18, 0.62);
+  color: #fff;
+  font-size: 1.35rem;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.lightbox__nav--prev {
+  left: 20px;
+}
+
+.lightbox__nav--next {
+  right: 20px;
+}
+
+.lightbox__nav:hover {
+  background: rgba(31, 26, 18, 0.78);
+}
+
 @keyframes rise {
   from {
     opacity: 0;
@@ -340,7 +396,24 @@ footer {
     width: 100%;
   }
 
+  .card--about {
+    margin-top: 12px;
+  }
+
   .lightbox__content {
     padding: 12px;
+  }
+
+  .lightbox__nav {
+    width: 36px;
+    height: 36px;
+  }
+
+  .lightbox__nav--prev {
+    left: 10px;
+  }
+
+  .lightbox__nav--next {
+    right: 10px;
   }
 }
